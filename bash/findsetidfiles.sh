@@ -11,5 +11,32 @@
 
 echo "Setuid files:"
 echo "============="
-find / -user root -perm 4000 -exec ls -ldb {} \;
-exit
+find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 3   # find use to find file location -type f mean only files sort -k 3
+                                                                        #                                 mean sort the output by key 3
+
+
+echo ""
+
+echo "now getting setgid file"
+echo "Setgid files:"
+echo "============="
+sleep 5
+
+find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
+
+echo""
+
+echo "Now displaying the 10 largest files in the system"
+echo "============="
+sleep 5
+
+find / 2>/dev/null -type f -exec ls -l --block-size=M {} + | sort -rh -k 5 | head -n 10 | awk '{print $5, $3, $9}'
+
+                                                                 # awk used for a kind of filter above comand mean only filter part $5 firts
+                                                                   # and after $5 than 3 and 9  coloum :)
+
+
+
+
+
+exit                                                 
