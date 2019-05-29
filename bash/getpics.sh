@@ -17,29 +17,15 @@ test -f ~/Pictures/pics.zip || wget -q -O ~/Pictures/pics.zip http://zonzorp.net
 # unpack the downloaded zipfile if it is there, then delete the local copy of the zipfile
 test -f ~/Pictures/pics.zip && unzip -d ~/Pictures -o -q ~/Pictures/pics.zip && rm ~/Pictures/pics.zip
 
-# Make a report on what we have in the Pictures directory
-test -d ~/Pictures && cat <<EOF
-Found $(find ~/Pictures -type f|wc -l) files in the Pictures directory.
-The Pictures directory uses $(du -sh ~/Pictures|awk '{print $1}') space on the disk.
-EOF
-echo "----------------------------------------------------------------------------------------------"
-echo "now getting and unzip the tgz file"
-sleep 10
+#make a pictures directory if we don't have one - assumes we have a home directory
+test -f ~/Pictures/pics.tgz || wget -q -O ~/Pictures/pics.tgz http://zonzorp.net/pics.tgz
 
-# make a Pictures directory if we don't have one - assumes we have a home directory
-test -d ~/Pictures || mkdir ~/Pictures  # test -d mean FILE exists and is a directory
+#download a zipfile of pictures to our directory if it isn't already there - assumes you are online
 
-# download a zipfile of pictures to our Pictures directory if it isn't already there - assumes you are online
-test -f ~/Pictures/pics.tgz || wget -q -O ~/Pictures/pics.tgz https://zonzorp.net/pics.tgz  # here is change
-
-# unpack the downloaded zipfile if it is there, then delete the local copy of the zipfile
-#test -f ~/Pictures/pics.zip && tar xvzf ~/Pictures -o -q ~/Pictures/pics.tgz && rm ~/Pictures/pics.tgz #here is change
-test -f ~/Pictures/pics.tgz && tar --extract --file ~/Pictures/pics.tgz -C ~/Pictures && rm ~/Pictures/pics.tgz
+test -f ~/Pictures/pics.tgz && tar -C ~/Pictures -xvf ~/Pictures/pics.tgz && rm ~/Pictures/pics.tgz
 
 # Make a report on what we have in the Pictures directory
 test -d ~/Pictures && cat <<EOF
 Found $(find ~/Pictures -type f|wc -l) files in the Pictures directory.
 The Pictures directory uses $(du -sh ~/Pictures|awk '{print $1}') space on the disk.
 EOF
-
-exit
