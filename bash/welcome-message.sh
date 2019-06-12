@@ -20,16 +20,18 @@ weekday=$(date +%u)
 ###############
 # Main        #
 ###############
-cat <<EOF
+Variable=$(cat <<EOF
 Welcome to planet $hostname, $name!
-EOF
-if [ "$weekday" = "6" ] || [ "$weekday" = "7" ]
+
+$(if [ "$weekday" = "6" ] || [ "$weekday" = "7" ]
 then
-   echo "It is $date a Weekend."
+  echo "It is $date a Weekend."
 else
-   echo "It is $date a Weekday."
-fi
+  echo "It is $date a Weekday."
+fi)
+EOF
+)
+
 cat <<EOF
-
-
+$(cowsay $Variable)
 EOF
