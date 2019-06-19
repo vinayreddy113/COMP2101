@@ -9,29 +9,28 @@
 #   Use a format like this:
 #   It is HH:MM AM on weekday.
 
-###############
-# Variables   #
-###############
-name="$USER"
-date=$(date +'%H:%M %p')
+titles=("BMW" "Mercedez" "RR" "Acura" "Alpha_Romeo" "Maserati")
+number=$(( ${#titles[@]}))
+random=$(( RANDOM % number))
+
+time=$(date +'%A, %I:%M %p')
+
 hostname=$(hostname)
 weekday=$(date +%u)
 
-###############
-# Main        #
-###############
-Variable=$(cat <<EOF
-Welcome to planet $hostname, $name!
+variable=$(cat <<EOF
+
+Welcome to planet $hostname, ${titles[$random]} $USER!
 
 $(if [ "$weekday" = "6" ] || [ "$weekday" = "7" ]
 then
-  echo "It is $date a Weekend."
+   echo "It is $time on Weekend."
 else
-  echo "It is $date a Weekday."
-fi)
+   echo "It is $time on Weekday."
+fi
+)
 EOF
 )
-
 cat <<EOF
-$(cowsay $Variable)
+$(cowsay$variable)
 EOF
